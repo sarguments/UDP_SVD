@@ -22,10 +22,6 @@ bool CSockUtill::SetNonBlock(SOCKET sock, bool bParam)
 	{
 		optionParam = 1;
 	}
-	else
-	{
-		optionParam = 0;
-	}
 
 	int ret_ioctl = ioctlsocket(sock, FIONBIO, &optionParam);
 	if (ret_ioctl == SOCKET_ERROR)
@@ -40,7 +36,12 @@ bool CSockUtill::SetNonBlock(SOCKET sock, bool bParam)
 
 bool CSockUtill::SetBroadCast(SOCKET sock, bool bParam)
 {
-	BOOL bEnable = TRUE;
+	BOOL bEnable = FALSE;
+	if (bParam)
+	{
+		bEnable = TRUE;
+	}
+
 	int ret_setsock = setsockopt(sock, SOL_SOCKET, SO_BROADCAST, (char*)&bEnable, sizeof(bEnable));
 	if (ret_setsock == SOCKET_ERROR)
 	{
